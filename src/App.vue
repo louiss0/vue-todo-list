@@ -1,30 +1,31 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import Button from './components/Button.vue'
+import TaskItem from './components/TaskItem.vue'
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
+  <div class="bg-gray-50 h-screen py-12 px-3">
+    <div class="mx-auto sm:w-4/5 max-w-5xl">
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+      <div class="flex flex-col gap-6">
+        <h1 class="text-center text-4xl">Vue Todo List</h1>
+
+        <div data-element="task-app" class="rounded-sm border-gray-900 border-2 pb-12">
+
+          <form data-element="task-form" class="flex justify-between items-center px-8 py-4">
+            <input type="text" class="rounded-sm leading-loose px-2">
+            <Button class="bg-blue-400 rounded-sm">Create Task</Button>
+          </form>
+          <div data-element="task-list" class="min-h-92 px-16 py-8">
+            <TaskItem></TaskItem>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</template>

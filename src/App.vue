@@ -1,6 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import Button from './components/Button.vue'
 import TaskItem from './components/TaskItem.vue'
+import { Task } from './Task';
+
+
+const tasks = ref([
+  new Task("Clean my room"),
+  new Task("Wash the dishes"),
+  new Task("Wash scrub the dishwasher"),
+])
 
 </script>
 
@@ -18,7 +27,10 @@ import TaskItem from './components/TaskItem.vue'
             <Button class="bg-blue-400 rounded-sm">Create Task</Button>
           </form>
           <div data-element="task-list" class="min-h-92 px-16 py-8">
-            <TaskItem></TaskItem>
+
+            <template v-for="task of tasks" :key="task.id">
+              <TaskItem :task></TaskItem>
+            </template>
 
           </div>
         </div>

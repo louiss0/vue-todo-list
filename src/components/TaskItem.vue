@@ -6,13 +6,13 @@ import { type Task } from '../Task';
 type Props = {
     task: Task
 }
-
+    
 defineProps<Props>()
 
 </script>
 
 <template>
-    <div class="flex justify-between px-3 py-1">
+    <div class="flex justify-between px-4 py-3">
         <Button class="bg-red-500 size-10 rounded-full">
             <div class="grid place-items-center">
                 <Icon icon="mdi:check" />

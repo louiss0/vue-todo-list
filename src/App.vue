@@ -2,9 +2,10 @@
 import { computed, ref, } from 'vue';
 import Button from './components/Button.vue'
 import TaskItem from './components/TaskItem.vue'
-import { Task } from './Task';
+import { Task, type TaskPayloads } from './Task';
 import DetailsModal from './components/DetailsModal.vue';
 import TaskDetailPrompt from './components/TaskDetailPrompt.vue';
+
 
 const title = ref("")
 const titleIsInvalid = computed(
@@ -26,12 +27,12 @@ function addTaskToTasks(
   title: string,
   details?: string
 ) {
-  tasks.value.unshift(
+  tasks.value = [(
     new Task(
       title,
       details
     )
-  )
+  ), ...tasks.value]
 }
 
 
@@ -59,19 +60,67 @@ function handleTitleAndDetailsSubmit() {
   title.value = ''
 }
 
+function updateTaskTitle(payload: TaskPayloads['title']) {
+
+  tasks.value = tasks.value.map(task => {
+
+    if (task.id === payload.id) {
+      return new Task(
+        payload.title,
+        task.details,
+        task.complete
+      )
+    }
+
+    return task;
+
+  })
+
+}
+
+function updateTaskDetails(payload: TaskPayloads['details']) {
+
+  tasks.value = tasks.value.map(task => {
+
+    if (task.id === payload.id) {
+      return new Task(task.title, payload.details, task.complete)
+    }
+
+    return task;
+
+  })
+
+}
+function checkTask(payload: TaskPayloads['complete']) {
+
+  tasks.value = tasks.value.map(task => {
+
+    if (task.id === payload.id) {
+      return new Task(task.title, task.details, payload.complete)
+    }
+
+    return task;
+
+  })
+
+}
+
+function deleteTask(payload: TaskPayloads['id']) {
+
+  tasks.value = tasks.value.filter(task => task.id === payload)
+
+}
 
 
 </script>
 
 <template>
-  <Teleport to="body">
-    <DetailsModal v-if="editDetails === 'yes'"
-                  @close="handleTitleAndDetailsSubmit"
-                  v-model:details="details" />
+  <DetailsModal v-if="editDetails === 'yes'"
+                @close="handleTitleAndDetailsSubmit"
+                v-model:details="details" />
 
-    <TaskDetailPrompt v-if="prompt === 'opened'"
-                      @close="handleTaskPromptSubmit" />
-  </Teleport>
+  <TaskDetailPrompt v-if="prompt === 'opened'"
+                    @close="handleTaskPromptSubmit" />
 
 
   <div class="bg-gray-50 h-screen py-12 px-3">
@@ -86,6 +135,7 @@ function handleTitleAndDetailsSubmit() {
 
           <form
                 @submit.prevent="handleTitleSubmit"
+
                 data-element="task-form"
                 class="flex justify-between items-center px-8 py-4">
             <input
@@ -109,7 +159,12 @@ function handleTitleAndDetailsSubmit() {
             <template
                       v-for="task of tasks"
                       :key="task.id">
-              <TaskItem :task></TaskItem>
+              <TaskItem
+                        :task
+                        @title-edited="updateTaskTitle"
+                        @details-edited="updateTaskDetails"
+                        @check-task="checkTask"
+                        @delete-task="deleteTask" />
             </template>
 
           </div>

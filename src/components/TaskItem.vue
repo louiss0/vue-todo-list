@@ -54,7 +54,6 @@ function finishEditingDetails(result: "no" | undefined) {
 </script>
 
 <template>
-
     <div class="flex justify-between px-4 py-3">
         <Button class="bg-red-500 size-10 rounded-full"
                 @click="$emit('checkTask', { id: task.id, complete: task.complete })">
@@ -64,9 +63,10 @@ function finishEditingDetails(result: "no" | undefined) {
 
         </Button>
 
-        <button @click="editingTitle = 'yes'"
-                @dblclick="editingDetails = 'yes'"
+        <button
                 v-if="editingTitle === 'no'"
+                @click="editingTitle = 'yes'"
+                @dblclick="editingDetails = 'yes'"
                 class="focus:(outline-none underline underline-offset-2) p-2">
             {{ task.title }}
         </button>

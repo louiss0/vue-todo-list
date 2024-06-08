@@ -7,8 +7,8 @@ export class Task {
         public readonly details = '',
         public readonly complete= true
     ) {
-        const date = Date.now()
-        this.id = date.toString()
+        
+        this.id = Math.random().toString()
     }
 }
 

@@ -62,7 +62,7 @@ const vAutoFocus: ObjectDirective<HTMLInputElement> = {
 <template>
     <div class="flex justify-between px-4 py-3">
         <Button class="bg-red-500 size-10 rounded-full"
-                @click="$emit('checkTask', { id: task.id, complete: task.complete })">
+                @click="$emit('checkTask', { id: task.id, complete: !task.complete })">
             <div class="grid place-items-center">
                 <Icon icon="mdi:check" />
             </div>

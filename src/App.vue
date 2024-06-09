@@ -58,8 +58,9 @@ function handleTitleAndDetailsSubmit() {
 
   addTaskToTasks(title.value, details.value)
   title.value = ''
+  details.value = ''
+  editDetails.value = 'no'
 }
-
 function updateTaskTitle(payload: TaskPayloads['title']) {
 
   tasks.value = tasks.value.map(task => {
@@ -107,10 +108,9 @@ function checkTask(payload: TaskPayloads['complete']) {
 
 function deleteTask(payload: TaskPayloads['id']) {
 
-  tasks.value = tasks.value.filter(task => task.id === payload)
+  tasks.value = tasks.value.filter(task => task.id !== payload)
 
 }
-
 
 </script>
 

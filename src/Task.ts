@@ -5,7 +5,7 @@ export class Task {
     constructor (
         public readonly title: string,
         public readonly details = '',
-        public readonly complete= true
+        public readonly complete= false
     ) {
         
         this.id = Math.random().toString()

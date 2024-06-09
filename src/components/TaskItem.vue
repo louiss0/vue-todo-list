@@ -80,7 +80,7 @@ const vAutoFocus: ObjectDirective<HTMLInputElement> = {
         <input
                v-if="editingTitle === 'yes'"
                @blur="cancelEditingTitle"
-               @keyup.enter="finishEditingTitle"
+               @keydown.enter="finishEditingTitle"
                v-model="title"
                v-auto-focus
                type="text" class="leading-tight">

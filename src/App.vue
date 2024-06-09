@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { computed, ref, } from 'vue';
+import { computed, ref, watch, } from 'vue';
 import Button from './components/Button.vue'
 import TaskItem from './components/TaskItem.vue'
-import { Task, type TaskPayloads } from './Task';
+import { Task, type Tasks, type TaskPayloads } from './Task';
 import TaskDetailsModal from './components/TaskDetailsModal.vue';
 import TaskDetailPrompt from './components/TaskDetailPrompt.vue';
 
 
 const title = ref("")
+
 const titleIsInvalid = computed(
   () => title.value.length < 3
 )
@@ -17,11 +18,7 @@ const editDetails = ref<'yes' | 'no'>('no')
 
 const prompt = ref<'opened' | 'closed'>('closed')
 
-const tasks = ref([
-  new Task("Clean my room"),
-  new Task("Wash the dishes"),
-  new Task("Wash scrub the dishwasher"),
-])
+const tasks = ref<Tasks>([])
 
 function addTaskToTasks(
   title: string,
@@ -35,32 +32,6 @@ function addTaskToTasks(
   ), ...tasks.value]
 }
 
-
-function handleTaskPromptSubmit(answer: 'yes' | 'no' | undefined) {
-
-  prompt.value = 'closed'
-
-  if (!answer || answer === 'no') {
-
-    return addTaskToTasks(title.value)
-  }
-
-  editDetails.value = 'yes'
-
-}
-
-function handleTitleAndDetailsSubmit(payload: 'finished' | undefined) {
-
-  if (!payload) {
-    details.value = ''
-    return
-  }
-
-  addTaskToTasks(title.value, details.value)
-  title.value = ''
-  details.value = ''
-  editDetails.value = 'no'
-}
 function updateTaskTitle(payload: TaskPayloads['title']) {
 
   tasks.value = tasks.value.map(task => {
@@ -111,6 +82,50 @@ function deleteTask(payload: TaskPayloads['id']) {
   tasks.value = tasks.value.filter(task => task.id !== payload)
 
 }
+
+function handleTaskPromptSubmit(answer: 'yes' | 'no' | undefined) {
+
+  prompt.value = 'closed'
+
+  if (!answer || answer === 'no') {
+
+    return addTaskToTasks(title.value)
+  }
+
+  editDetails.value = 'yes'
+
+}
+
+function handleTitleAndDetailsSubmit(payload: 'finished' | undefined) {
+
+  if (!payload) {
+    details.value = ''
+    return
+  }
+
+  addTaskToTasks(title.value, details.value)
+  title.value = ''
+  details.value = ''
+  editDetails.value = 'no'
+}
+
+watch(tasks, () => {
+
+  const unparsedTasks = localStorage.getItem("tasks")
+
+  tasks.value = unparsedTasks ? JSON.parse(unparsedTasks) : []
+
+}, {
+  immediate: true,
+  once: true
+})
+
+watch(tasks, (value) => {
+
+  localStorage.setItem("tasks", JSON.stringify(value))
+
+
+})
 
 </script>
 

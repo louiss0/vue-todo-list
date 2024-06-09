@@ -53,6 +53,9 @@ function finishEditingDetails(result: "no" | undefined) {
 
 }
 
+const vAutoFocus: ObjectDirective<HTMLInputElement> = {
+    mounted: (el) => el.focus()
+}
 
 </script>
 
@@ -79,6 +82,7 @@ function finishEditingDetails(result: "no" | undefined) {
                @blur="cancelEditingTitle"
                @keyup.enter="finishEditingTitle"
                v-model="title"
+               v-auto-focus
                type="text" class="leading-tight">
 
         <DetailsModal

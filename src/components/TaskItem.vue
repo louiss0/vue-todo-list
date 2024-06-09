@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue';
 import Button from "./Button.vue"
 import type { Task, TaskPayloads } from '../Task';
-import { ref } from 'vue';
+import { type ObjectDirective, ref } from 'vue';
 import DetailsModal from './DetailsModal.vue';
 
 type Props = {
@@ -27,6 +27,7 @@ const editingDetails = ref<'yes' | 'no'>('no')
 function cancelEditingTitle() {
     title.value = task.title
     editingTitle.value = 'no'
+
 }
 
 function finishEditingTitle() {
@@ -71,9 +72,15 @@ const vAutoFocus: ObjectDirective<HTMLInputElement> = {
 
         <button
                 v-if="editingTitle === 'no'"
+                class="focus:(outline-none underline underline-current underline-offset-2) p-2"
+                :class="{
+                    'text-red-500': task.complete,
+                    'line-through': task.complete,
+                }"
                 @click="editingTitle = 'yes'"
-                @dblclick="editingDetails = 'yes'"
-                class="focus:(outline-none underline underline-offset-2) p-2">
+                @click.alt="editingDetails = 'yes'"
+                @keydown.alt="editingDetails = 'yes'"
+                :disabled="task.complete">
             {{ task.title }}
         </button>
 

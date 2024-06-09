@@ -36,11 +36,22 @@ defineEmits<{ close: [answer: 'no' | undefined] }>()
                 </header>
 
                 <div class="grid place-items-center">
-                    <textarea required minlength="2" rows="10" cols="20" class="border-3 rounded-sm" v-model="details" name="details" id="details">
+                    <textarea required
+                              minlength="2"
+                              rows="10"
+                              cols="20"
+                              class="border-3 rounded-sm"
+                              v-model="details"
+                              name="details"
+                              id="details">
                 </textarea>
                 </div>
                 <footer class="flex justify-end items-center px-6 py-4">
-                    <Button type="submit" value="no" class="focus:ring-1 bg-green-400 rounded-full px-6 py-2">Finish</Button>
+                    <Button type="submit"
+                            value="no"
+                            class="focus:ring-1 bg-green-400 rounded-full px-6 py-2">
+                        Cancel
+                    </Button>
                 </footer>
             </form>
 

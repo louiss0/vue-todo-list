@@ -26,6 +26,7 @@ const editingDetails = ref<'yes' | 'no'>('no')
 
 function cancelEditingTitle() {
     title.value = task.title
+    editingTitle.value = 'no'
 }
 
 function finishEditingTitle() {

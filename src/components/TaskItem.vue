@@ -32,8 +32,8 @@ function cancelEditingTitle() {
 function finishEditingTitle() {
 
     if (!title.value) {
-        title.value = task.title
-        return
+
+        return cancelEditingTitle()
     }
 
     emit('titleEdited', { id: task.id, title: title.value })

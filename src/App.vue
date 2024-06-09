@@ -171,9 +171,13 @@ watch(tasks, (value) => {
                data-element="task-list"
                class="min-h-92 px-16 py-8">
 
-            <template
-                      v-for="task of tasks"
-                      :key="task.id">
+            <template v-if="tasks.length === 0">
+              <div class="grid place-items-center">
+                What things do you have to do for today?
+              </div>
+            </template>
+
+            <template v-else v-for="task of tasks" :key="task.id">
               <TaskItem
                         :task
                         @title-edited="updateTaskTitle"
@@ -181,6 +185,8 @@ watch(tasks, (value) => {
                         @check-task="checkTask"
                         @delete-task="deleteTask" />
             </template>
+
+
 
           </div>
         </div>

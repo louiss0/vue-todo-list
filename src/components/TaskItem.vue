@@ -42,6 +42,8 @@ function finishEditingTitle() {
 
 function finishEditingDetails(result: "no" | undefined) {
 
+    editingDetails.value = 'no'
+
     if (!result && details.value) {
         emit('detailsEdited', { id: task.id, details: details.value })
 

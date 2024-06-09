@@ -3,7 +3,7 @@ import { computed, ref, } from 'vue';
 import Button from './components/Button.vue'
 import TaskItem from './components/TaskItem.vue'
 import { Task, type TaskPayloads } from './Task';
-import DetailsModal from './components/DetailsModal.vue';
+import TaskDetailsModal from './components/TaskDetailsModal.vue';
 import TaskDetailPrompt from './components/TaskDetailPrompt.vue';
 
 
@@ -36,11 +36,6 @@ function addTaskToTasks(
 }
 
 
-
-function handleTitleSubmit() {
-  prompt.value = 'opened'
-}
-
 function handleTaskPromptSubmit(answer: 'yes' | 'no' | undefined) {
 
   prompt.value = 'closed'
@@ -54,7 +49,12 @@ function handleTaskPromptSubmit(answer: 'yes' | 'no' | undefined) {
 
 }
 
-function handleTitleAndDetailsSubmit() {
+function handleTitleAndDetailsSubmit(payload: 'finished' | undefined) {
+
+  if (!payload) {
+    details.value = ''
+    return
+  }
 
   addTaskToTasks(title.value, details.value)
   title.value = ''
@@ -115,9 +115,9 @@ function deleteTask(payload: TaskPayloads['id']) {
 </script>
 
 <template>
-  <DetailsModal v-if="editDetails === 'yes'"
-                @close="handleTitleAndDetailsSubmit"
-                v-model:details="details" />
+  <TaskDetailsModal v-if="editDetails === 'yes'"
+                    @close="handleTitleAndDetailsSubmit"
+                    v-model:details="details" />
 
   <TaskDetailPrompt v-if="prompt === 'opened'"
                     @close="handleTaskPromptSubmit" />
@@ -134,7 +134,7 @@ function deleteTask(payload: TaskPayloads['id']) {
              class="rounded-sm border-gray-900 border-2 pb-12">
 
           <form
-                @submit.prevent="handleTitleSubmit"
+                @submit.prevent="prompt = 'opened'"
 
                 data-element="task-form"
                 class="flex justify-between items-center px-8 py-4">
@@ -148,7 +148,7 @@ function deleteTask(payload: TaskPayloads['id']) {
             <Button
                     type="submit"
                     :disabled="titleIsInvalid"
-                    class="disabled:(bg-gray-300 text-gray-500) bg-blue-400 rounded-sm">
+                    class="bg-blue-400 rounded-sm disabled:(bg-gray-300 text-gray-500) ">
               Create Task
             </Button>
           </form>

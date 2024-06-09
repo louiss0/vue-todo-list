@@ -1,3 +1,4 @@
+``
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue';
 import Button from './Button.vue';
@@ -18,7 +19,7 @@ watch(dialogRef, () => {
     }
 }, { once: true })
 
-defineEmits<{ close: [answer: 'no' | undefined] }>()
+defineEmits<{ close: [answer: 'finished' | undefined] }>()
 
 
 
@@ -48,9 +49,9 @@ defineEmits<{ close: [answer: 'no' | undefined] }>()
                 </div>
                 <footer class="flex justify-end items-center px-6 py-4">
                     <Button type="submit"
-                            value="no"
+                            value="finished"
                             class="focus:ring-1 bg-green-400 rounded-full px-6 py-2">
-                        Cancel
+                        Finish
                     </Button>
                 </footer>
             </form>

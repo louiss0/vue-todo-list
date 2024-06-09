@@ -3,7 +3,7 @@ import { Icon } from '@iconify/vue';
 import Button from "./Button.vue"
 import type { Task, TaskPayloads } from '../Task';
 import { type ObjectDirective, ref } from 'vue';
-import DetailsModal from './DetailsModal.vue';
+import TaskDetailsModal from './TaskDetailsModal.vue';
 
 type Props = {
     task: Task
@@ -41,16 +41,17 @@ function finishEditingTitle() {
 
 }
 
-function finishEditingDetails(result: "no" | undefined) {
+function finishEditingDetails(result: "finished" | undefined) {
 
     editingDetails.value = 'no'
 
     if (!result && details.value) {
-        emit('detailsEdited', { id: task.id, details: details.value })
 
+        details.value = task.details
+        return
     }
 
-    details.value = task.details
+    emit('detailsEdited', { id: task.id, details: details.value })
 
 }
 
@@ -92,10 +93,10 @@ const vAutoFocus: ObjectDirective<HTMLInputElement> = {
                v-auto-focus
                type="text" class="leading-tight">
 
-        <DetailsModal
-                      v-if="editingDetails === 'yes' && details"
-                      @close="finishEditingDetails"
-                      v-model:details="details" />
+        <TaskDetailsModal
+                          v-if="editingDetails === 'yes' && details"
+                          @close="finishEditingDetails"
+                          v-model:details="details" />
 
         <Button class="bg-green-500 size-10 rounded-full"
                 @click="emit('deleteTask', task.id)">
